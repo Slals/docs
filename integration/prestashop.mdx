@@ -1,0 +1,42 @@
+---
+title: 'Prestashop'
+icon: 'shop'
+---
+
+## Intégration de Stan sur Prestashop
+
+Pour commencer vous devez avoir un compte Stan, rien de plus simple, rendez vous sur https://compte.stan-app.fr et entrez uniquement votre adresse email.
+
+## Installer le module Stan
+
+La solution Stan s'installe facilement avec son extension ! Vous trouverez le module Stan en cliquant sur le lien ci-dessous
+
+https://addons.prestashop.com/en/express-checkout-process/91433-stan.html
+
+<Note>
+Si vous ne voyez pas de quoi il s'agit, transmettez cet article à votre développeur ou intégrateur web !
+</Note>
+
+<Steps>
+    <Step title="Le module Stan">
+        [Installez et activez Stan](https://addons.prestashop.com/en/express-checkout-process/91433-stan.html)
+    </Step>
+    <Step title="Configurer Stan">
+        Rendez-vous sur la page « Admin Prestashop > Paiements > Méthodes de paiement »
+    </Step>
+    <Step title="Récupérer les identifiants Stan">
+        Renseignez vos identifiants Stan. Trouvez-les dans la section « Accès API » en vous connectant sur votre [Dashboard Stan](https://compte.stan-app.fr/integration/apikeys)
+    </Step>
+</Steps>
+
+<Frame>
+  <img src="/images/presta_conf.png" />
+</Frame>
+
+## Tester le paiement
+
+Testez le paiement en cochant la case "Activer le mode test" sur la configuration de votre "Stan Payment Gateway" installée sur votre site. Sauvegardez et effectuez un paiement sur votre site, cela va réaliser un faux paiement.
+
+<Warning>
+    Pour avoir une installation fonctionnelle avec de vrais paiements, votre compte doit être activé par l'équipe Stan ! Nous faisons le nécessaire pour l'activer au plus vite. En attendant, vous pouvez désactiver l'extension "Stan Payment Gateway" depuis l'interface de méthodes de paiement Woocommerce.
+</Warning>

@@ -1,33 +1,48 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: 'API Reference'
+description: 'API Reference documentation'
 ---
 
+## Welcome to the Stan API Documentation section
+
+In this page you'll find every endpoint the API can offer.
+
+Stan API has two main features:
+
+- __Stan Connect__: fetch Stan users personnal infos with a OAuth2 standard
+- __Stan Payment__: create a Stan payment for Stan user or non Stan users by creating a customer
+
 <Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
+Stan Connect only works with users who installed the Stan Application and subscribed to our services.
+</Note>
+<Note>
+Stan Payment works either with or without the Stan Application.
 </Note>
 
-## Welcome
-
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
-
 <Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
+  title="You'll need to Setup for Starting Up!"
+  icon="feather"
+  href="https://compte.stan-app.fr"
 >
-  View the OpenAPI specification file
+  To use our API, you will need to create and activate your account in your Dashboard
 </Card>
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API endpoints are authenticated using Basic and picked up from the specification file.
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
-```
+- As __Username__ put your API Client id
+- As __Password__ put your API Client secret
+
+<Card
+  title="Use your Test API Client"
+  icon="feather"
+  href="https://compte.stan-app.fr/integration/apikeys"
+>
+  You can find your API credentials in your Stan Dashboard. For testing our API we suggest using your Test API Client as displayed in the video below!
+</Card>
+
+<video
+  controls loop autoPlay muted
+  src="/images/stan-api-test.mp4"
+></video>

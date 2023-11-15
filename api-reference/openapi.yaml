@@ -1,0 +1,579 @@
+openapi: 3.0.0
+servers:
+  - url: https://api.stan-app.fr
+externalDocs:
+  description: Find out more about Stan
+  url: https://doc.stan-app.fr
+info:
+  description: Stan Client API
+  version: 1.0.0
+  title: Stan API
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+paths:
+  /v1/apis:
+    put:
+      tags:
+        - settings
+      summary: Updates API settings
+      operationId: updateApiSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiSettingsRequestBody'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - stan_basic_auth: []
+  /v1/customers:
+    post:
+      tags:
+        - customer
+      summary: Create a new customer
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequestBody'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - stan_basic_auth: []
+  /v1/payments:
+    post:
+      tags:
+        - payment
+      summary: Create a payment
+      description: Prepare an oncoming payment
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentRequestBody'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PreparedPayment'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - stan_basic_auth: []
+    get:
+      tags:
+        - payment
+      summary: Get all payments
+      operationId: getPayments
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Payment'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - stan_basic_auth: []
+  /v1/payments/{payment_id}:
+    get:
+      tags:
+        - payment
+      summary: Get a payment
+      description: Get a payment with an UUID.
+      operationId: getPayment
+      parameters:
+        - name: payment_id
+          in: path
+          description: UID of the payment
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - stan_basic_auth: []
+  /v1/refunds:
+    post:
+      tags:
+        - refund
+      summary: Create a refund
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefundRequestBody'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Refund'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - stan_basic_auth: []
+    get:
+      tags:
+        - refund
+      summary: Get all refunds
+      operationId: getRefunds
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Refund'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - stan_basic_auth: []
+  /v1/refunds/{refund_id}:
+    get:
+      tags:
+        - refund
+      summary: Get a refund
+      description: Get a refund with an UUID.
+      operationId: getRefund
+      parameters:
+        - name: refund_id
+          in: path
+          description: UID of the refund
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Refund'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - stan_basic_auth: []
+  /v1/oauth/token:
+    post:
+      tags:
+        - connect
+      summary: Create a user access token
+      description: Create an access token to request user's infos
+      operationId: createConnectAccessToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectAccessTokenRequestBody'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectAccessToken'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+  /v1/sessions/users:
+    post:
+      tags:
+        - user
+      summary: Get user infos
+      operationId: getUser
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - stan_connect_auth:
+            - openid
+            - email
+            - phone
+            - profile
+            - address
+components:
+  securitySchemes:
+    stan_basic_auth:
+      type: http
+      scheme: basic
+    stan_connect_auth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.stan-app.fr/v1/oauth/auth
+          tokenUrl: https://api.stan-app.fr/v1/oauth/token
+          scopes:
+            openid: Specify that you will be requesting personnal data
+            email: Specify that you will be requesting the user's email address
+            phone: Specify that you will be requesting the user's phone number
+            profile: Specify that you will be requesting the user's fullname
+            address: Specify that you will be requesting the user's delivery address
+  responses:
+    '400':
+      description: Bad data format
+    '401':
+      description: Unauthorized, please provided api client_id and client_secret as Basic auth
+    '500':
+      description: The servers encountered an alien
+  schemas:
+    Address:
+      title: A physical address
+      type: object
+      properties:
+        firstname:
+          type: string
+        lastname:
+          type: string
+        street_address:
+          type: string
+        street_address_line2:
+          type: string
+        locality:
+          type: string
+        zip_code:
+          type: string
+        country:
+          type: string
+        region:
+          type: string
+    ApiSettingsRequestBody:
+      title: An API settings request body
+      type: object
+      properties:
+        payment_webhook_url:
+          type: string
+          format: uri
+          description: Payment webhook to be notified when a payment status is updated. Use this to update your order status when a payment has been made
+        oauth_redirect_url:
+          type: string
+          format: uri
+          description: Login redirection for Stan Connect
+    ConnectAccessToken:
+      title: A connect access token
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+        expires_in:
+          type: integer
+          description: Token expiration delay in ms
+    ConnectAccessTokenRequestBody:
+      title: A Stan Connect access token
+      type: object
+      properties:
+        code:
+          type: string
+          description: The code received from authorization request
+          format: uuid
+        client_id:
+          type: string
+          description: Your Stan Connect client ID, find it in your Dashboard
+        client_secret:
+          type: string
+          description: Your Stan Connect client secret, find it in your Dashboard
+        redirect_uri:
+          type: string
+          description: The URI you provided when you requested authorization
+        grant_type:
+          type: string
+          description: The authorization mecanism, since you provided a code, put authorization_code
+        scope:
+          type: string
+          description: The user's information you will be using. You must set the same scope provided in authorization request. Separate scopes with " "
+    Customer:
+      title: A customer is a payer
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          description: Customer fullname
+        email:
+          type: string
+          format: email
+        phone_number:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+    CustomerRequestBody:
+      title: A customer request body
+      type: object
+      required:
+        - name
+        - email
+        - address
+      properties:
+        name:
+          type: string
+          description: Customer fullname
+        email:
+          type: string
+          format: email
+        address:
+          $ref: '#/components/schemas/Address'
+        phone_number:
+          type: string
+    Payment:
+      title: A payment
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        order_id:
+          type: string
+          format: string
+        amount:
+          type: integer
+          description: Amount in cents
+          format: int32
+        payment_status:
+          type: string
+          description: Status of the payment
+          enum:
+            - payment_prepared
+            - payment_holding
+            - payment_pending
+            - payment_failure
+            - payment_success
+            - payment_cancelled
+            - payment_partial_refunded
+            - payment_refunded
+            - payment_expired
+        merchant_id:
+          type: string
+          description: UUID of the merchant who created the payment
+          format: uuid
+        customer_id:
+          type: string
+          description: UUID of the customer
+          format: uuid
+        is_refundable:
+          type: boolean
+          description: Weither the payment is refundable or not
+        refunded_amount:
+          type: integer
+          format: int32
+          description: Refunded amount for this payment in cents
+        created_at:
+          type: string
+          format: date-time
+    PaymentRequestBody:
+      title: A payment request body
+      type: object
+      required:
+        - order_id
+        - amount
+        - return_url
+      properties:
+        order_id:
+          type: string
+          format: string
+        amount:
+          type: integer
+          description: Amount in cents
+          format: int32
+        subtotal_amount:
+          type: integer
+          description: The subtotal amount in cents. This amount is optionnal, it's useful to give information to the user.
+          format: int32
+        shipping_amount:
+          type: integer
+          description: The shipping cost in cents. This amount is optionnal, it's useful to give information to the user.
+          format: int32
+        discount_amount:
+          type: integer
+          description: The discount amount in cents. This amount is optionnal, it's useful to give information to the user.
+          format: int32
+        tax_amount:
+          type: integer
+          description: The tax amount in cents. This amount is optionnal, it's useful to give information to the user.
+          format: int32
+        return_url:
+          type: string
+          format: uri
+          description: The return URL where the user will land after the payment has been complete. The URL will be appended with a URI query payment_status with the value corresponding to the Payment status and state with the value you provided in state.
+        cancel_url:
+          type: string
+          format: uri
+          description: The redirect URL used in case of payment cancel or fail.
+        customer_id:
+          type: string
+          description: UUID of the customer
+          format: uuid
+        state:
+          type: string
+          description: Payment state that will be used to preserve the state after the redirection to the provided return_url or cancel_url. If not state is provided Stan will generate one and transmit it to the return_url or cancel_url.
+    PreparedPayment:
+      title: A prepared payment
+      type: object
+      properties:
+        payment_id:
+          type: string
+          format: uuid
+        state:
+          type: string
+          format: string
+        redirect_url:
+          type: string
+          format: uri
+    Refund:
+      title: A refund
+      type: object
+      properties:
+        refund_id:
+          type: string
+          format: uuid
+        payment_id:
+          type: string
+          format: string
+        amount:
+          type: integer
+          description: Amount in cents
+          format: int32
+        status:
+          type: string
+          description: Status of the refund, a refund is a reversed payment
+          enum:
+            - payment_holding
+            - payment_pending
+            - payment_failure
+            - payment_success
+            - payment_cancelled
+        reason:
+          type: string
+          description: Reason for the refund
+          enum:
+            - requested_by_customer
+            - duplicate
+            - fraudulent
+        created_at:
+          type: string
+          format: date-time
+    RefundRequestBody:
+      title: A refund request body
+      type: object
+      required:
+        - payment_id
+        - amount
+        - reason
+      properties:
+        payment_id:
+          type: string
+          description: Payment ID linked to this refund
+          format: uuid
+        amount:
+          type: integer
+          description: Amount in cents
+          format: int32
+        reason:
+          type: string
+          description: Reason for the refund
+          enum:
+            - requested_by_customer
+            - duplicate
+            - fraudulent
+    User:
+      title: User's infos with a provided Access Token. Requesting user's infos is a once and for once usage. If you want to request again user's infos you will have to create a new Access Token
+      type: object
+      properties:
+        oauth_connect_id:
+          type: string
+          description: ID of the connection
+          format: uuid
+        sub:
+          type: string
+          description: Token ID
+        given_name:
+          type: string
+        family_name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        preferred_username:
+          type: string
+        shipping_address:
+          $ref: '#/components/schemas/Address'

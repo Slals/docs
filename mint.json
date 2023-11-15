@@ -1,11 +1,12 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Stan docs",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
   },
   "favicon": "/favicon.svg",
+  "openapi": ["/api-reference/openapi.yaml"],
   "colors": {
     "primary": "#0D9373",
     "light": "#07C983",
@@ -18,12 +19,12 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "mailto:support@stan-app.fr"
     }
   ],
   "topbarCtaButton": {
     "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "url": "https://compte.stan-app.fr"
   },
   "tabs": [
     {
@@ -33,19 +34,9 @@
   ],
   "anchors": [
     {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
-    },
-    {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "name": "Stan App",
+      "icon": "mobile-screen",
+      "url": "https://stan-app.fr"
     }
   ],
   "navigation": [
@@ -54,25 +45,41 @@
       "pages": ["introduction", "quickstart", "development"]
     },
     {
-      "group": "Essentials",
-      "pages": ["essentials/markdown", "essentials/code", "essentials/images", "essentials/settings", "essentials/navigation"]
+      "group": "CMS and Framework Integration",
+      "pages": ["integration/woocommerce", "integration/prestashop", "integration/sylius"]
     },
     {
       "group": "API Documentation",
       "pages": ["api-reference/introduction"]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Stan Connect Endpoints",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "api-reference/connect/create-access-token",
+        "api-reference/user/get",
+        "api-reference/customer/create"
+      ]
+    },
+    {
+      "group": "Stan Pay Endpoints",
+      "pages": [
+        "api-reference/payment/create",
+        "api-reference/payment/get",
+        "api-reference/payment/get-all",
+        "api-reference/refund/create",
+        "api-reference/refund/get",
+        "api-reference/refund/get-all"
+      ]
+    },
+    {
+      "group": "Manage Account Endpoints",
+      "pages": [
+        "api-reference/settings/update"
       ]
     }
   ],
   "footerSocials": {
-    "twitter": "https://twitter.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "github": "https://github.com/stan-business",
+    "linkedin": "https://www.linkedin.com/company/stan-app"
   }
 }
