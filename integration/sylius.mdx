@@ -3,4 +3,68 @@ title: 'Sylius'
 icon: 'code'
 ---
 
-## Sylius
+## Intégration de Stan sur Sylius
+
+Pour commencer vous devez avoir un compte Stan, rien de plus simple, rendez vous sur https://compte.stan-app.fr et entrez uniquement votre adresse email.
+
+## Installer le bundle Stan
+
+<Steps>
+    <Step title="Installer avec Composer">
+        `composer require stan-business/sylius-stan-plugin`
+    </Step>
+    <Step title="Importer les routes">
+        ```php config/routes/sylius_shop.yaml
+        brightweb_sylius_stan_connect_shop:
+            resource: "@BrightwebSyliusStanPlugin/config/shop_routing.yml"
+        ```
+    </Step>
+    <Step title="Importer les configurations">
+        ```php config/packages/_sylius.yaml
+        imports:
+            # ...
+            - { resource: "@BrightwebSyliusStanPlugin/config/config.yaml" }
+        ```
+    </Step>
+    <Step title="Ajouter les dépendances">
+        ```php config/bundles.php
+        return [
+            ...
+            Brightweb\SyliusStanPlugin::class => ['all' => true],
+            ...
+        ]
+        ```
+    </Step>
+</Steps>
+
+## Configuration de Stan
+
+<Steps>
+Go to "Payment Methods" in admin menu and click on "+ Create". Choose "Stan Pay"
+    <Step title="Méthodes de paiement">
+        Aller sur la section "Payment Methods" dans le menu admin et cliquer sur "+ Create". Choisir "Stan Pay"
+        <Frame>
+            <img src="/images/1_sylius_stan_pay.png" />
+        </Frame>
+    </Step>
+    <Step title="Clés API Stan Pay">
+        Entrer les clés APIs dans les champs
+        <Frame>
+            <img src="/images/2_sylius_stan_pay_conf.png" />
+        </Frame>
+    </Step>
+    <Step title="Clés API Stan Connect">
+        Entrer les clés APIs dans les champs
+        <Frame>
+            <img src="/images/3_stan_connect_conf.png" />
+        </Frame>
+    </Step>
+</Steps>
+
+## Tester le paiement
+
+Testez le paiement en sélectionant la case "Test Mode" sur la configuration de votre "Stan Pay" installée sur votre site. Sauvegardez et effectuez un paiement sur votre site, cela va réaliser un faux paiement.
+
+<Warning>
+    Pour avoir une installation fonctionnelle avec de vrais paiements, votre compte doit être activé par l'équipe Stan ! Nous faisons le nécessaire pour l'activer au plus vite. En attendant, vous pouvez désactiver l'extension "Stan Payment Gateway" depuis l'interface de méthodes de paiement Woocommerce.
+</Warning>
