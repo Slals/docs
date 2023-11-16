@@ -8,9 +8,9 @@
   "favicon": "/favicon.svg",
   "openapi": ["/api-reference/openapi.yaml"],
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#4d5eeb",
+    "light": "#4d5eeb",
+    "dark": "#4d5eeb",
     "anchors": {
       "from": "#0D9373",
       "to": "#07C983"
