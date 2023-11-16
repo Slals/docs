@@ -1,0 +1,53 @@
+---
+title: 'Stan Pay'
+description: 'Le paiement avec Stan'
+---
+
+Stan offre deux options pour effectuer un paiement :
+- __Paiement pour un <Tooltip tip="Utilisateur de l'app Stan">Stanner</Tooltip>__ : parcours optimisé pour payer avec Stan.
+- __Payment pour un non Stanner__ : tout le monde peut payer avec Stan.
+
+## Initier un paiement
+
+<Steps>
+  <Step title="Créer un paiement (i.e. une invoice)">
+    C'est la première étape pour initier un paiement. [Créer un paiement](/api-reference/payment/create).
+  </Step>
+  <Step title="Redirection du Stanner">
+    Après la création du paiement vous récupérez un lien de redirection pour permettre au Stanner de payer. Stan s'occupe de tout.
+  </Step>
+  <Step title="Après le paiement">
+    Le Stanner est redirigé vers la `return_url` que vous avez transmis à la création du paiement.
+  </Step>
+  <Step title="Notification Webhook">
+    Lorsqu'un status de paiement change vous êtes notifié via l'URL de webhook que vous avez configuré. [Voir "API Settings"](/api-reference/settings/update).
+  </Step>
+</Steps>
+
+<Warning>
+  Il peut être tentant d'utiliser la redirection vers `return_url` pour mettre à jour la commande avec le status de paiement fourni. Cela n'est pas une pratique recommandée, préférez la notification Webhook pour mettre à jour la commande de votre client.
+</Warning>
+
+<Frame>
+  <img src="/images/stan_pay_diag.png" />
+</Frame>
+
+## Liste des status de paiement
+
+| Paramètre         | Description                           |  
+| ----------------- | ------------------------------------- | 
+| `payment_prepared`  | Un paiement a été créé et prêt à être initié par un Stanner |
+| `payment_pending`   | Le paiement a été initié par le Stanner. Généralement un virement bancaire prend jusqu'à +1 jour pour arriver sur le compte du bénéficiaire. Veuillez noter qu'un paiement en attente peut entraîner un `payment_failure` |
+| `payment_failure`   | Le paiement a rencontré une faillite bancaire. L'échec va d'un problème de compte bancaire tel qu'un fonds insuffisant à une erreur de serveur de la banque. |
+| `payment_success`   | Le paiement a été validé par la banque du Stanner. Généralement un virement bancaire prend jusqu'à +1 jour après avoir été validé. |
+| `payment_cancelled` | Le paiment a été annulé par le Stanner. |
+| `payment_holding`   | Le paiement a été validé mais nécessite une vérification complémentaire par le compte bancaire du client. |
+| `payment_expired`   | Le paiement a été abandonné et a automatiquement expiré. |
+
+## Liste des raisons de remboursement
+
+| Paramètre         | Description                           |  
+| ----------------- | ------------------------------------- | 
+| `requested_by_customer`  | Remboursement demandé par le Stanner |
+| `duplicate`   | Paiement dupliqué |
+| `fraudulent`   | Paiement frauduleux ou suspect |

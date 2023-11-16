@@ -1,0 +1,55 @@
+---
+title: 'Stan Connect'
+description: 'Le 1 clic checkout de Stan'
+---
+
+## Stan Connect
+
+<Note>
+Stan Connect est uniquement disponible pour les Stanners.
+</Note>
+
+Stan Connect suit les standards OAuth2 pour envoyer les informations d'un Stanner sur votre site. Cela se découpe en 3 couches :
+- [__Authorization Request__](/stan-connect#creer-un-lien-de-connexion) : créer un lien pour initier une connexion avec Stan
+- [__Access Token Creation__](/api-reference/connect/create-access-token) : créer un jeton de connexion avec le récupéré après l'Authorization Request
+- [__Informations du Stanner__](/api-reference/user/get) : récupérer les informations du Stanner à l'aide du `access_token` retourné dans l'étape Access Token Creation
+
+<Frame>
+  <img src="/images/stan_connect_diag.png" />
+</Frame>
+
+## Créer un lien de connexion
+
+Créer un lien de connexion est la première étape pour initier une connexion d'un Stanner avec votre site. Ce lien est à transmettre auprès de l'utilisateur.
+
+<Note>
+  Ce lien fonctionne uniquement pour les Stanner ayant l'application Stan installée sur leur téléphone.
+</Note>
+
+<Warning>
+  L'URL de redirection doit être définie pour des raisons de sécurités. Mettez la à jour via votre [Dashboard Stan](https://compte.stan-app.fr/integration/apikeys). L'URL de redirection est là où le Stanner sera redirigé, c'est ici que vous pouvez récupérer le code et ensuite le jeton d'accès.
+</Warning>
+
+Le lien de connexion se construit avec des paramètres d'URI. L'URL de base est `https://api.stan-app.fr/v1/oauth/auth`
+
+| Paramètre         | Requis                                | Description                                                                                                         |
+| ----------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `response_type`     | Oui                                   | Le type réponse. Mettre `code`                                                                                      |
+| `scope`             | Oui                                   | Spécifier les informations à récupérer. Exemple de scope `openid email phone profile address`. [Voir les scopes](#liste-de-scope). |
+| `client_id`         | Oui                                   | L'ID du client Stan Connect, trouvez le sur votre [Dashboard Stan](https://compte.stan-app.fr/integration/apikeys). |
+| `state`             | Non                                   | Une valeur aléatoire d'au moins 8 caractères. Elle permet de sécuriser les échanges.                                |
+| `redirect_uri`      | Oui                                   | L'URI où le Stanner sera redirigé après avoir accepté une connexion Stan sur votre site.                            |
+
+```bash Exemple de lien de connexion
+https://api.stan-app.fr/v1/oauth/auth?response_type=code&scope=openid%20email%20phone%20profile%20address&client_id=b68cc88f-21ce-4aa8-a528-36a8f70af3b5&state=abc123xyz&redirect_uri=https://monsite.fr/login
+```
+
+## Liste de Scope
+
+| Paramètre         | Requis                                | Description                                                                                                         |
+| ----------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `openid`            | Oui                                   | Protocole de récupération d'informations personnelles                                                               |
+| `email`             | Oui                                   | Récupérer l'email du Stanner                                                                                        |
+| `phone`             | Non                                   | Récupérer le numéro de téléphone du Stanner                                                                         |
+| `profile`           | Non                                   | Récupérer le nom et prénom du Stanner                                                                               |
+| `address`           | Non                                   | Récupérer l'adresse de livraison du Stanner                                                                         |

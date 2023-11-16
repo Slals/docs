@@ -42,7 +42,7 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["introduction", "quickstart", "development"]
+      "pages": ["introduction", "stan-connect", "stan-pay"]
     },
     {
       "group": "CMS and Framework Integration",
@@ -50,7 +50,9 @@
     },
     {
       "group": "API Documentation",
-      "pages": ["api-reference/introduction"]
+      "pages": [
+        "api-reference/introduction"
+      ]
     },
     {
       "group": "Stan Connect Endpoints",
