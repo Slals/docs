@@ -64,8 +64,7 @@ paths:
     post:
       tags:
         - payment
-      summary: Create a payment
-      description: Prepare an oncoming payment
+      summary: Prepare an oncoming payment
       operationId: create
       requestBody:
         content:
@@ -131,6 +130,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Payment'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - stan_basic_auth: []
+  /v1/checkouts:
+    post:
+      tags:
+        - checkout
+      summary: Create a new checkout
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutRequestBody'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checkout'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -217,74 +242,11 @@ paths:
           $ref: '#/components/responses/500'
       security:
         - stan_basic_auth: []
-  /v1/oauth/token:
-    post:
-      tags:
-        - connect
-      summary: Create a user access token
-      description: Create an access token to request user's infos
-      operationId: createConnectAccessToken
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ConnectAccessTokenRequestBody'
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ConnectAccessToken'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '500':
-          $ref: '#/components/responses/500'
-  /v1/sessions/users:
-    post:
-      tags:
-        - user
-      summary: Get user infos
-      operationId: getUser
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '500':
-          $ref: '#/components/responses/500'
-      security:
-        - stan_connect_auth:
-            - openid
-            - email
-            - phone
-            - profile
-            - address
 components:
   securitySchemes:
     stan_basic_auth:
       type: http
       scheme: basic
-    stan_connect_auth:
-      type: oauth2
-      flows:
-        authorizationCode:
-          authorizationUrl: https://api.stan-app.fr/v1/oauth/auth
-          tokenUrl: https://api.stan-app.fr/v1/oauth/token
-          scopes:
-            openid: Specify that you will be requesting personnal data
-            email: Specify that you will be requesting the user's email address
-            phone: Specify that you will be requesting the user's phone number
-            profile: Specify that you will be requesting the user's fullname
-            address: Specify that you will be requesting the user's delivery address
   responses:
     '400':
       description: Bad data format
@@ -325,40 +287,96 @@ components:
           type: string
           format: uri
           description: Login redirection for Stan Connect
-    ConnectAccessToken:
-      title: A connect access token
+    Checkout:
+      title: A checkout is the starting point of a checkout flow
       type: object
       properties:
-        access_token:
+        id:
           type: string
-        token_type:
-          type: string
-        expires_in:
-          type: integer
-          description: Token expiration delay in ms
-    ConnectAccessTokenRequestBody:
-      title: A Stan Connect access token
-      type: object
-      properties:
-        code:
-          type: string
-          description: The code received from authorization request
           format: uuid
-        client_id:
+        total_amount:
+          type: integer
+          format: int64
+          description: Total amount to pay
+        total_amount_before_discount:
+          type: integer
+          format: int64
+          description: Total amount to pay before any discount
+        subtotal_amount:
+          type: integer
+          format: int64
+          description: Subtotal amount of this checkout
+        discount_amount:
+          type: integer
+          format: int64
+          description: Total discount applied to this checkout
+        tax_rate:
+          type: integer
+          format: int64
+          description: Tax rate
+        discount_code:
           type: string
-          description: Your Stan Connect client ID, find it in your Dashboard
-        client_secret:
+          description: Discount code applied to this checkout
+        is_testmode:
+          type: boolean
+          description: Wether the checkout is in testmode or not
+        line_items:
+          type: array
+          description: Items included in the checkout
+          items:
+            $ref: '#/components/schemas/LineItem'
+        merchant:
+          $ref: '#/components/schemas/Merchant'
+        session_id:
           type: string
-          description: Your Stan Connect client secret, find it in your Dashboard
-        redirect_uri:
+          description: Defines a session for the current user
+        order_id:
           type: string
-          description: The URI you provided when you requested authorization
-        grant_type:
+          description: Order id associated to this checkout
+    CheckoutRequestBody:
+      title: A checkout request body
+      type: object
+      required:
+        - name
+        - email
+        - address
+      properties:
+        return_url:
           type: string
-          description: The authorization mecanism, since you provided a code, put authorization_code
-        scope:
+          format: uri
+          description: It's where the user will be redirected at the end of the checkout, whether it's success, cancelled or failed
+        total_amount:
+          type: integer
+          format: int64
+          description: Defines the total cost of the checkout (subtotal + shipping + tax)
+        session_id:
           type: string
-          description: The user's information you will be using. You must set the same scope provided in authorization request. Separate scopes with " "
+          description: An ID for the checkout session, it can be the cart ID or anything else
+        order_id:
+          type: string
+          description: The ID of the current order if created
+        subtotal_amount:
+          type: integer
+          format: int64
+          description: Defines the total cost of the checkout before taxes and without discounts
+        discount_amount:
+          type: integer
+          format: int64
+          description: Defines the absolute discount amount
+        tax_rate:
+          type: integer
+          format: int64
+          description: Defines the percent of taxes (express as integer)
+        tax_cost:
+          type: integer
+          format: int64
+        discount_code:
+          type: string
+          description: Defines the code used for the discount
+        line_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItem'
     Customer:
       title: A customer is a payer
       type: object
@@ -394,6 +412,45 @@ components:
           $ref: '#/components/schemas/Address'
         phone_number:
           type: string
+    LineItem:
+      title: A line item
+      type: object
+      properties:
+        product_id:
+          type: string
+        quantity:
+          type: integer
+        unit_price:
+          type: integer
+        discount_amount:
+          type: integer
+        description:
+          type: string
+        sku:
+          type: string
+        image_url:
+          type: string
+          format: uri
+        product_url:
+          type: string
+          format: uri
+    Merchant:
+      title: Merchant's infos
+      type: object
+      properties:
+        name:
+          type: string
+        website:
+          type: string
+        privacy_policy_url:
+          type: string
+          format: uri
+        general_terms_url:
+          type: string
+          format: uri
+        logo_url:
+          type: string
+          format: uri
     Payment:
       title: A payment
       type: object
@@ -554,26 +611,3 @@ components:
             - requested_by_customer
             - duplicate
             - fraudulent
-    User:
-      title: User's infos with a provided Access Token. Requesting user's infos is a once and for once usage. If you want to request again user's infos you will have to create a new Access Token
-      type: object
-      properties:
-        oauth_connect_id:
-          type: string
-          description: ID of the connection
-          format: uuid
-        sub:
-          type: string
-          description: Token ID
-        given_name:
-          type: string
-        family_name:
-          type: string
-        email:
-          type: string
-        phone:
-          type: string
-        preferred_username:
-          type: string
-        shipping_address:
-          $ref: '#/components/schemas/Address'

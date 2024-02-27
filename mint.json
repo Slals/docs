@@ -42,10 +42,10 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["introduction", "stan-connect", "stan-pay"]
+      "pages": ["introduction", "stan-checkout"]
     },
     {
-      "group": "CMS and Framework Integration",
+      "group": "CMS et intégration Framework",
       "pages": ["integration/woocommerce", "integration/prestashop", "integration/sylius"]
     },
     {
@@ -56,14 +56,6 @@
       ]
     },
     {
-      "group": "Stan Connect Endpoints",
-      "pages": [
-        "api-reference/connect/create-access-token",
-        "api-reference/user/get",
-        "api-reference/customer/create"
-      ]
-    },
-    {
       "group": "Stan Pay Endpoints",
       "pages": [
         "api-reference/payment/create",
@@ -71,7 +63,9 @@
         "api-reference/payment/get-all",
         "api-reference/refund/create",
         "api-reference/refund/get",
-        "api-reference/refund/get-all"
+        "api-reference/refund/get-all",
+        "api-reference/customer/create",
+        "api-reference/checkout/create"
       ]
     },
     {

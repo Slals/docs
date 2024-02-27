@@ -1,13 +1,11 @@
 ---
-title: 'Stan Pay'
-description: 'Le paiement avec Stan'
+title: 'Stan Xpress Checkout'
+description: 'Le checkout xpress avec Stan'
 ---
 
-Stan offre deux options pour effectuer un paiement :
-- __Paiement pour un <Tooltip tip="Utilisateur de l'app Stan">Stanner</Tooltip>__ : parcours optimisé pour payer avec Stan.
-- __Payment pour un non Stanner__ : tout le monde peut payer avec Stan.
+Le checkout Xpress avec Stan permet à vos clients de payer en quelques clics en choisissant ses méthodes de paiement favorites. Vous n'avez rien à gérer, Stan s'occupe de tout.
 
-## Initier un paiement
+## Initier un checkout
 
 <Steps>
   <Step title="Créer un paiement (i.e. une invoice)">
@@ -27,10 +25,6 @@ Stan offre deux options pour effectuer un paiement :
 <Warning>
   Il peut être tentant d'utiliser la redirection vers `return_url` pour mettre à jour la commande avec le status de paiement fourni. Cela n'est pas une pratique recommandée, préférez la notification Webhook pour mettre à jour la commande de votre client.
 </Warning>
-
-<Frame>
-  <img src="/images/stan_pay_diag.png" />
-</Frame>
 
 ## Liste des status de paiement
 
