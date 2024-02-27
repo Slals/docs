@@ -279,14 +279,10 @@ components:
       title: An API settings request body
       type: object
       properties:
-        payment_webhook_url:
+        webhook_url:
           type: string
           format: uri
           description: Payment webhook to be notified when a payment status is updated. Use this to update your order status when a payment has been made
-        oauth_redirect_url:
-          type: string
-          format: uri
-          description: Login redirection for Stan Connect
     Checkout:
       title: A checkout is the starting point of a checkout flow
       type: object

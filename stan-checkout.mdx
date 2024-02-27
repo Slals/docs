@@ -8,14 +8,14 @@ Le checkout Xpress avec Stan permet à vos clients de payer en quelques clics en
 ## Initier un checkout
 
 <Steps>
-  <Step title="Créer un paiement (i.e. une invoice)">
-    C'est la première étape pour initier un paiement. [Créer un paiement](/api-reference/payment/create).
+  <Step title="Créer une session checkout">
+    C'est la première étape pour initier un checkout. [Créer un checkout](/api-reference/checkout/create).
   </Step>
-  <Step title="Redirection du Stanner">
-    Après la création du paiement vous récupérez un lien de redirection pour permettre au Stanner de payer. Stan s'occupe de tout.
+  <Step title="Redirection du client">
+    Après la création du paiement vous récupérez un lien de redirection pour permettre au client de poursuivre sa commande. Stan s'occupe de tout.
   </Step>
   <Step title="Après le paiement">
-    Le Stanner est redirigé vers la `return_url` que vous avez transmis à la création du paiement.
+    Le client est redirigé vers la `return_url` que vous avez transmis à la création du checkout.
   </Step>
   <Step title="Notification Webhook">
     Lorsqu'un status de paiement change vous êtes notifié via l'URL de webhook que vous avez configuré. [Voir "API Settings"](/api-reference/settings/update).
@@ -30,11 +30,11 @@ Le checkout Xpress avec Stan permet à vos clients de payer en quelques clics en
 
 | Paramètre         | Description                           |  
 | ----------------- | ------------------------------------- | 
-| `payment_prepared`  | Un paiement a été créé et prêt à être initié par un Stanner |
-| `payment_pending`   | Le paiement a été initié par le Stanner. Généralement un virement bancaire prend jusqu'à +1 jour pour arriver sur le compte du bénéficiaire. Veuillez noter qu'un paiement en attente peut entraîner un `payment_failure` |
+| `payment_prepared`  | Un paiement a été créé et prêt à être initié par un client |
+| `payment_pending`   | Le paiement a été initié par le client. Généralement un virement bancaire prend jusqu'à +1 jour pour arriver sur le compte du bénéficiaire. Veuillez noter qu'un paiement en attente peut entraîner un `payment_failure` |
 | `payment_failure`   | Le paiement a rencontré une faillite bancaire. L'échec va d'un problème de compte bancaire tel qu'un fonds insuffisant à une erreur de serveur de la banque. |
-| `payment_success`   | Le paiement a été validé par la banque du Stanner. Généralement un virement bancaire prend jusqu'à +1 jour après avoir été validé. |
-| `payment_cancelled` | Le paiment a été annulé par le Stanner. |
+| `payment_success`   | Le paiement a été validé par la banque du client. Généralement un virement bancaire prend jusqu'à +1 jour après avoir été validé. |
+| `payment_cancelled` | Le paiment a été annulé par le client. |
 | `payment_holding`   | Le paiement a été validé mais nécessite une vérification complémentaire par le compte bancaire du client. |
 | `payment_expired`   | Le paiement a été abandonné et a automatiquement expiré. |
 
@@ -42,6 +42,6 @@ Le checkout Xpress avec Stan permet à vos clients de payer en quelques clics en
 
 | Paramètre         | Description                           |  
 | ----------------- | ------------------------------------- | 
-| `requested_by_customer`  | Remboursement demandé par le Stanner |
+| `requested_by_customer`  | Remboursement demandé par le client |
 | `duplicate`   | Paiement dupliqué |
 | `fraudulent`   | Paiement frauduleux ou suspect |
