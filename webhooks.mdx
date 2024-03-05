@@ -1,0 +1,43 @@
+---
+title: 'Configuration requises'
+description: 'Les configurations requises pour avoir un checkout 100% opérationnel'
+---
+
+Afin de totalement fonctionner Stan nécessite une certaine configuration de votre serveur.
+
+Lorqu'un client procède au checkout Stan, des informations au sujet du client vous sont envoyées par évènements.
+
+## Authentification du client
+
+Lors de l'évènement `customer.authenticated` votre service __doit__ retourner le numéro de commande. La réponse doit être structurée de la façon suivante :
+
+```javascript Réponse JSON attendue
+{
+    "order_id": "string" // id de la commande
+}
+```
+
+## Méthodes de livraison
+
+Lors de l'évènement `customer.shipping_address_changed` votre service __doit__ retourner vos méthodes de livraison. La réponse doit être structurée de la façon suivante :
+
+```javascript Réponse JSON attendue
+[{
+    "shipping_method_id": "string", // id de la méthode de livraison
+    "shipping_cost": "integer",     // coût de livraison en cents
+    "shipping_label": "string"      // nom de la méthode de livraison
+}, {
+    ...
+}]
+```
+
+## Sélection d'une méthode de livraison
+
+Lors de l'évènement `checkout.shipping_method_changed` votre service __doit__ retourner le nouveau total de la commande calculé par vos services. La réponse doit être structurée de la façon suivante :
+
+```javascript Réponse JSON attendue
+{
+    "shipping_amount": "integer",   // coût de livraison en cents
+    "total_amount": "integer"       // nouveau total de la commande en cents
+}
+```

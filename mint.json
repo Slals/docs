@@ -34,15 +34,15 @@
   ],
   "anchors": [
     {
-      "name": "Stan App",
-      "icon": "mobile-screen",
+      "name": "Stan Business",
+      "icon": "star",
       "url": "https://stan-app.fr"
     }
   ],
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["introduction", "stan-checkout"]
+      "pages": ["introduction", "stan-checkout", "webhooks", "events"]
     },
     {
       "group": "CMS et intégration Framework",

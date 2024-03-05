@@ -1,0 +1,194 @@
+---
+title: 'Evènements et webhook'
+description: 'Gérer les évènements du Checkout Stan'
+---
+
+Les évènements du Checkout Stan est un moyen d'échanger des informations avec votre serveur lorsqu'un client procède au Checkout Stan. Un évènement consiste en un appel de votre URL de webhook :
+
+```
+POST https://votre-webhook.fr/stan/event
+Content-Type: application/json
+X-HMAC-Signature: <signature HMAC>
+X-Stan-SessID: <session id lors de la création du checkout>
+```
+
+### Corps d'une requête d'évènement
+
+Tous les évènements ont une structure de base qui comporte un champs variable selon l'évènement. La structure de base est la suivante :
+
+```javascript Corps JSON d'une requête d'évènement
+{
+    "event_type": "string",             // type d'évènement
+	"payload": "object|undefined"       // informations relatives à l'évènement
+}
+```
+
+### Signature HMAC
+
+Tous les évènements sont signés avec HMAC, la signature est incluse dans l'en-tête `X-HMAC-Signature`. Utilisez cette signature pour vérifier que l'évènement a bien été envoyé par les services de Stan. La clé secrète pour générer la signature est la `secret_key` de vos identifiants API. Voici quelques exemples pour vérifier la signature d'un évènement :
+
+<CodeGroup>
+```php PHP
+$secret_key = 'ma_cle_secrete';
+
+// $payload est le corps de la requête de l'évènement
+$expected_signature = base64_encode( hash_hmac( 'sha256', $payload, $secret_key, true ) );
+
+// $signature est la signature récupérée dans l'en-tête X-HMAC-Signature
+$verify_signature = ( 'sha256=' . $expected_signature == $signature );
+
+// si $verify_signature est true, la signature est valide
+```
+```go Golang
+import (
+    "crypto/hmac"
+    "crypto/sha256"
+    "encoding/base64"
+    "fmt"
+)
+
+secretKey := "ma_cle_secrete"
+payload := "le_corps_de_la_requête"
+signature := "la_signature_récupérée"
+
+expectedSignature := base64.StdEncoding.EncodeToString(
+    hmac.New(sha256.New, []byte(secretKey)).Sum([]byte(payload))
+)
+
+verifySignature := hmac.Equal([]byte(expectedSignature), []byte("sha256="+signature))
+
+// si verifySignature est true, la signature est valide
+```
+```python Python
+import base64
+import hmac
+import hashlib
+
+secret_key = "ma_cle_secrete"
+payload = "le_corps_de_la_requête"
+signature = "la_signature_récupérée"
+
+expected_signature = base64.b64encode(
+    hmac.new(secret_key.encode(), payload.encode(), hashlib.sha256).digest()
+).decode()
+
+verify_signature = hmac.compare_digest(
+    "sha256=" + expected_signature, signature
+)
+
+// si verify_signature est true, la signature est valide
+```
+```ruby Ruby
+require 'base64'
+require 'openssl'
+
+secret_key = "ma_cle_secrete"
+payload = "le_corps_de_la_requête"
+signature = "la_signature_récupérée"
+
+expected_signature = Base64.encode64(
+    OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha256'), secret_key, payload)
+).strip
+
+verify_signature = ActiveSupport::SecurityUtils.secure_compare(
+    "sha256=" + expected_signature, signature
+)
+
+// si verify_signature est true, la signature est valide
+```
+</CodeGroup>
+
+## Liste des évènements
+
+| Nom de l'évènement                    | Description                                                   |
+| ------------------------------------- | ------------------------------------------------------------- |
+| `payment.created`                     | Un paiement a été tenté                                       |
+| `payment.status_changed`              | Le status d'un paiement relatif à un checkout a changé        |
+| `customer.created`                    | Un client a été créé                                          |
+| `customer.shipping_address_changed`   | Le client a changé son adresse de livraison                   |
+| `customer.authenticated`              | Le client s'est authentifié                                   |
+| `checkout.line_item_changed`          | Le client a modifié son panier                                |
+| `checkout.shipping_method_changed`    | Le client a choisi une méthode de livraison                   |
+
+## Corps des requêtes d'évènement
+
+<AccordionGroup>
+    <Accordion title="payment.created">
+        ```javascript
+        {
+            "payment_status": "string"      // status du paiement
+            "order_id": "string"            // identifiant de la commande
+            "amount": "integer"             // montant du paiement en cents
+            "id": "string"                  // id du paiement
+        }
+        ```
+    </Accordion>
+    <Accordion title="payment.status_changed">
+        ```javascript
+        {
+            "payment_status": "string"      // status du paiement
+            "order_id": "string"            // identifiant de la commande
+            "amount": "integer"             // montant du paiement en cents
+            "id": "string"                  // id du paiement
+        }
+        ```
+    </Accordion>
+    <Accordion title="customer.created">
+        ```javascript
+        {
+            "email": "string",              // email du client
+            "firstname": "string",          // prénom du client
+            "lastname": "string",           // nom du client
+            "phone_number": "string"        // numéro de téléphone du client
+        }
+        ```
+    </Accordion>
+    <Accordion title="customer.shipping_address_changed">
+        ```javascript
+        {
+            "firstname": "string",
+            "lastname": "string",
+            "company": "string|undefined",
+            "email": "string",
+            "phone_number": "string|undefined",
+            "street_address": "string",
+            "street_address_line2": "string|undefined",
+            "locality": "string",
+            "country": "string",
+            "zip_code": "string"
+        }
+        ```
+    </Accordion>
+    <Accordion title="customer.authenticated">
+        ```javascript
+        {
+            "email": "string",              // email du client
+            "firstname": "string",          // prénom du client
+            "lastname": "string",           // nom du client
+            "phone_number": "string"        // numéro de téléphone du client
+        }
+        ```
+    </Accordion>
+    <Accordion title="checkout.line_item_changed">
+        ```javascript
+        {}
+        ```
+    </Accordion>
+    <Accordion title="checkout.shipping_method_changed">
+        ```javascript
+        {
+            "shipping_method_id": "string",
+	        "relay_point": {
+                "id": "string",
+                "firstname": "string",
+                "lastname": "string",
+                "name": "string",
+                "code": "string",
+                "street": "string",
+                "postal_code": "string",
+                "country": "string"
+            } // si un point relais a été choisi
+        }
+        ```
+    </Accordion>
+</AccordionGroup>
