@@ -15,13 +15,13 @@ Le Xpress Checkout avec Stan permet à vos clients de payer en quelques clics en
     C'est la première étape pour initier un checkout. [Créer un checkout](/api-reference/checkout/create).
   </Step>
   <Step title="Redirection du client">
-    Après la création du paiement vous récupérez un lien de redirection pour permettre au client de poursuivre sa commande. Stan s'occupe de tout.
+    Après la création de la session checkout vous récupérez un lien de redirection pour permettre au client de poursuivre sa commande. Stan s'occupe de tout.
   </Step>
   <Step title="Après le paiement">
-    Le client est redirigé vers la `return_url` que vous avez transmis à la création du checkout.
+    Le client est redirigé vers la `return_url` que vous avez transmise à la création de la session checkout.
   </Step>
   <Step title="Notification Webhook">
-    Lorsqu'un status de paiement change vous êtes notifié via l'URL de webhook que vous avez configuré. [Voir "API Settings"](/api-reference/settings/update).
+    Lorsqu'un status de paiement change vous êtes notifié via l'URL de webhook que vous avez configurée. [Voir "API Settings"](/api-reference/settings/update).
   </Step>
 </Steps>
 

@@ -25,7 +25,7 @@ Tous les évènements ont une structure de base qui comporte un champs variable 
 
 ### Signature HMAC
 
-Tous les évènements sont signés avec HMAC, la signature est incluse dans l'en-tête `X-HMAC-Signature`. Utilisez cette signature pour vérifier que l'évènement a bien été envoyé par les services de Stan. La clé secrète pour générer la signature est la `secret_key` de vos identifiants API. Voici quelques exemples pour vérifier la signature d'un évènement :
+Tous les évènements sont signés avec HMAC, la signature est incluse dans l'en-tête HTTP `X-HMAC-Signature`. Utilisez cette signature pour vérifier que l'évènement a bien été envoyé par les services de Stan. La clé secrète pour générer la signature est la `secret_key` de vos identifiants API. Voici quelques exemples pour vérifier la signature d'un évènement :
 
 <CodeGroup>
 ```php PHP
