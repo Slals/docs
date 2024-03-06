@@ -3,11 +3,14 @@ title: 'Stan Xpress Checkout'
 description: 'Le checkout xpress avec Stan'
 ---
 
-Le checkout Xpress avec Stan permet à vos clients de payer en quelques clics en choisissant ses méthodes de paiement favorites. Vous n'avez rien à gérer, Stan s'occupe de tout.
+Le Xpress Checkout avec Stan permet à vos clients de payer en quelques clics en choisissant ses méthodes de paiement favorites. Vous n'avez rien à gérer, Stan s'occupe de tout.
 
 ## Initier un checkout
 
 <Steps>
+  <Step title="Configurer votre URL de webhook">
+    Rendez-vous sur [vos options d'API](https://compte.stan-app.fr/integration/apikeys) afin d'ajouter votre __URL de webhook__. Cette URL permet de capturer les évènements du Checkout Stan, voir [la doc "Evènements et webhook"](/events).
+  </Step>
   <Step title="Créer une session checkout">
     C'est la première étape pour initier un checkout. [Créer un checkout](/api-reference/checkout/create).
   </Step>
@@ -30,10 +33,10 @@ Le checkout Xpress avec Stan permet à vos clients de payer en quelques clics en
 
 | Paramètre         | Description                           |  
 | ----------------- | ------------------------------------- | 
-| `payment_prepared`  | Un paiement a été créé et prêt à être initié par un client |
-| `payment_pending`   | Le paiement a été initié par le client. Généralement un virement bancaire prend jusqu'à +1 jour pour arriver sur le compte du bénéficiaire. Veuillez noter qu'un paiement en attente peut entraîner un `payment_failure` |
-| `payment_failure`   | Le paiement a rencontré une faillite bancaire. L'échec va d'un problème de compte bancaire tel qu'un fonds insuffisant à une erreur de serveur de la banque. |
-| `payment_success`   | Le paiement a été validé par la banque du client. Généralement un virement bancaire prend jusqu'à +1 jour après avoir été validé. |
+| `payment_prepared`  | Un paiement a été créé et prêt à être initié par un client. |
+| `payment_pending`   | Le paiement a été initié par le client. |
+| `payment_failure`   | Le paiement a rencontré une erreur côté banque. La raison de l'échec va d'un problème de compte bancaire tel qu'un fond insuffisant à une erreur serveur de la banque. |
+| `payment_success`   | Le paiement a été validé par la banque du client. |
 | `payment_cancelled` | Le paiment a été annulé par le client. |
 | `payment_holding`   | Le paiement a été validé mais nécessite une vérification complémentaire par le compte bancaire du client. |
 | `payment_expired`   | Le paiement a été abandonné et a automatiquement expiré. |
@@ -42,6 +45,6 @@ Le checkout Xpress avec Stan permet à vos clients de payer en quelques clics en
 
 | Paramètre         | Description                           |  
 | ----------------- | ------------------------------------- | 
-| `requested_by_customer`  | Remboursement demandé par le client |
-| `duplicate`   | Paiement dupliqué |
-| `fraudulent`   | Paiement frauduleux ou suspect |
+| `requested_by_customer`  | Remboursement demandé par le client. |
+| `duplicate`   | Paiement dupliqué. |
+| `fraudulent`   | Paiement frauduleux ou suspect. |

@@ -76,7 +76,7 @@ verify_signature = hmac.compare_digest(
     "sha256=" + expected_signature, signature
 )
 
-// si verify_signature est true, la signature est valide
+# si verify_signature est true, la signature est valide
 ```
 ```ruby Ruby
 require 'base64'
@@ -94,7 +94,7 @@ verify_signature = ActiveSupport::SecurityUtils.secure_compare(
     "sha256=" + expected_signature, signature
 )
 
-// si verify_signature est true, la signature est valide
+# si verify_signature est true, la signature est valide
 ```
 </CodeGroup>
 
@@ -102,13 +102,13 @@ verify_signature = ActiveSupport::SecurityUtils.secure_compare(
 
 | Nom de l'évènement                    | Description                                                   |
 | ------------------------------------- | ------------------------------------------------------------- |
-| `payment.created`                     | Un paiement a été tenté                                       |
-| `payment.status_changed`              | Le status d'un paiement relatif à un checkout a changé        |
-| `customer.created`                    | Un client a été créé                                          |
-| `customer.shipping_address_changed`   | Le client a changé son adresse de livraison                   |
-| `customer.authenticated`              | Le client s'est authentifié                                   |
-| `checkout.line_item_changed`          | Le client a modifié son panier                                |
-| `checkout.shipping_method_changed`    | Le client a choisi une méthode de livraison                   |
+| `payment.created`                     | Un paiement a été tenté.                                      |
+| `payment.status_changed`              | Le status d'un paiement relatif à un checkout a changé.       |
+| `customer.created`                    | Un client a été créé.                                         |
+| `customer.shipping_address_changed`   | Le client a changé son adresse de livraison.                  |
+| `customer.authenticated`              | Le client s'est authentifié.                                  |
+| `checkout.line_item_changed`          | Le client a modifié son panier.                               |
+| `checkout.shipping_method_changed`    | Le client a choisi une méthode de livraison.                  |
 
 ## Corps des requêtes d'évènement
 
