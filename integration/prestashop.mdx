@@ -3,6 +3,34 @@ title: 'Prestashop'
 icon: 'shop'
 ---
 
-## L'extension Prestashop est en cours de mise à jour
+## Intégration de Stan sur Prestashop
 
-<Note>Besoin de l'extension Prestashop ? Dites-le nous par email contact@stan-app.fr ! Ou [laissez un issue](https://github.com/stan-business/prestashop-stan-pay)</Note>
+Pour commencer vous devez avoir un compte Stan, rien de plus simple, rendez vous sur https://compte.stan-app.fr et entrez uniquement votre adresse email.
+
+## Installer Stan Xpress Checkout
+
+<Note>
+Si vous ne voyez pas de quoi il s'agit, transmettez cet article à votre développeur ou intégrateur web !
+</Note>
+
+<a href="https://addons.prestashop.com/fr/processus-rapide-commande/94235-stan-xpress-checkout.html" target="_blank">Télécharger Stan Xpress Checkout</a>
+
+<Steps>
+  <Step title="Installer les extensions">
+    Installez et activez <a href="https://wordpress.org/plugins/stan-checkout/" target="_blank">Stan Xpress Checkout</a> sur votre site Prestashop
+  </Step>
+  <Step title="Configurer Stan Xpress Checkout">
+    Depuis l'interface admin de votre site, rendez-vous sur la page « Paiement > Moyens de paiement > Configurer (à droite de la section "Stan Xpress Checkout") »
+  </Step>
+  <Step title="Récupérer les clés API Stan Checkout">
+    Renseignez vos identifiants Stan Xpress Checkout. Trouvez-les dans la section « Accès API » en vous connectant sur votre [Dashboard Stan](https://compte.stan-app.fr/integration/apikeys)
+  </Step>
+</Steps>
+
+## Tester le paiement
+
+Testez le paiement en décochant la case "Activer le mode LIVE" sur la configuration de votre "Stan Xpress Checkout" installé sur votre site. Sauvegardez et effectuez une session checkout sur votre site, cela va réaliser une session checkout de test.
+
+<Warning>
+  Pour avoir une installation fonctionnelle avec de vrais paiements, votre compte doit être activé par l'équipe Stan ! Nous faisons le nécessaire pour l'activer au plus vite.
+</Warning>
